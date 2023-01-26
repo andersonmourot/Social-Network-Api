@@ -88,4 +88,40 @@ const postController = {
         res.status(500).json(err);
       });
   },
+  addResponse(req, res) {
+    Post.findOneAndUpdate(
+      { _id: req.params.postId },
+      { $addToSet: { responses: req.body } },
+      { reunValidators: true, new: true }
+    )
+      .then((dbPostData) => {
+        if (!dbPostData) {
+          return res.status(404).json({ message: "No post using this ID" });
+        }
+        res.json(dbPostData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+  removeResponse(req, res) {
+    Post.findOneAndUpdate(
+      { _id: req.params.postId },
+      { $pull: { responses: { responseId: req.params.responseId } } },
+      { reunValidators: true, new: true }
+    )
+      .then((dbPostData) => {
+        if (!dbPostData) {
+          return res.status(404).json({ message: "No post using this ID" });
+        }
+        res.json(dbPostData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
 };
+
+module.exports = postController;
