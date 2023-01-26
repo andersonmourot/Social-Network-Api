@@ -1,6 +1,6 @@
 const { Post, User } = require("../models");
 const postController = {
-  getOnePost(req, res) {
+  getSinglePost(req, res) {
     Post.findOne({ _id: req.params.postId })
       .then((dbPostData) => {
         if (!dbPostData) {

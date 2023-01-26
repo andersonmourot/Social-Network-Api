@@ -1,39 +1,5 @@
 const { User, Post } = require("../models");
 const userController = {
-  addContact(req, res) {
-    User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $addToSet: { contacts: req.params.contactId } },
-      { new: true }
-    )
-      .then((dbUserData) => {
-        if (!dbUserData) {
-          return res.status(400).json({ message: "No user found" });
-        }
-        res.json(dbUserData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  },
-  removeContact(req, res) {
-    User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $pull: { contacts: req.params.contactId } },
-      { new: true }
-    )
-      .then((dbUserData) => {
-        if (!dbUserData) {
-          return res.status(400).json({ message: "No user found" });
-        }
-        res.json(dbUserData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  },
   createUser(req, res) {
     User.create(req.body)
       .then((dbUserData) => {
@@ -44,7 +10,7 @@ const userController = {
         res.status(500).json(err);
       });
   },
-  updateuser(req, res) {
+  updateUser(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $set: req.body },
@@ -90,16 +56,50 @@ const userController = {
   },
   deleteUser(req, res) {
     User.findOneAndDelete({ _id: req.params.userId })
-        .then((dbUserData) => {
-            if (!dbUserData) {
-                return res.status(400).json({ message: "No user found" });
-            }
-            return Post.deleteMany({ _id: { $in: dbUserData.posts } });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          return res.status(400).json({ message: "No user found" });
+        }
+        return Post.deleteMany({ _id: { $in: dbUserData.posts } });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+  addContact(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { contacts: req.params.contactId } },
+      { new: true }
+    )
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          return res.status(400).json({ message: "No user found" });
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+  removeContact(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { contacts: req.params.contactId } },
+      { new: true }
+    )
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          return res.status(400).json({ message: "No user found" });
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
 };
 
