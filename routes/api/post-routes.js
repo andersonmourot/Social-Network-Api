@@ -9,16 +9,12 @@ const {
   removeResponse,
 } = require('../../controllers/post-controller');
 
-// /api/thoughts
 router.route('/').get(getPosts).post(createPost);
 
-// /api/thoughts/:thoughtId
 router.route('/:postId').get(getSinglePost).put(updatePost).delete(deletePost);
 
-// /api/thoughts/:thoughtId/reactions
-router.route('/:thoughtId/reactions').post(addResponse);
+router.route('/:postId/responses').post(addResponse);
 
-// /api/thoughts/:thoughtId/reactions/:reactionId
-router.route('/:thoughtId/reactions/:reactionId').delete(removeResponse);
+router.route('/:postId/responses/:responseId').delete(removeResponse);
 
 module.exports = router;

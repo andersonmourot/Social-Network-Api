@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose');
 const responseSchema = require('./Response');
 const dateFormat = require('../utils/dateFormat');
-const { timeStamp } = require('console');
 const postSchema = new Schema(
     {
         postText: {
